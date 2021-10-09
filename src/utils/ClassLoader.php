@@ -4,7 +4,7 @@ namespace utils;
 
 use utils\AbstractClassLoader as UtilsAbstractClassLoader;
 
-class classLoader extends UtilsAbstractClassLoader
+class ClassLoader extends UtilsAbstractClassLoader
 {
 	public function __construct($file_root)
 	{
