@@ -79,7 +79,10 @@ $stock = $manager->showRecipe();
 
 $customer = new Customer("Jean Gilbert");
 $command = new Command($customer);
-echo "\nYour command id : $command->command_id";
 $command->addItem($regina);
-$command->addItem($napolitaine);
+// $command->addItem($napolitaine);
 $customer->addCommand($command);
+
+// echo "\n";
+var_dump(Command::getCommands());
+// var_dump(Command::getCommand($command->id));

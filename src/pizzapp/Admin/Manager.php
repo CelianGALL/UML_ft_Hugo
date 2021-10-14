@@ -11,6 +11,7 @@ class Manager
 
 	public $global_stock = [];
 	public $recipes = [];
+	static public $margin = 1.2;
 
 	public function addIngredientToStock(Ingredient $ingredient)
 	{
@@ -66,6 +67,20 @@ class Manager
 	public function changePrice(Ingredient $ingredient, $newprice)
 	{
 		$ingredient->price = $newprice;
+	}
+
+	static public function getMargin()
+	{
+		return self::$margin;
+	}
+
+	static public function changeMargin($new_margin)
+	{
+		if ($new_margin >= 1) {
+			self::$margin = $new_margin;
+		} else {
+			echo 'Wrong margin, you\'ll be bankrupt in no time !';
+		}
 	}
 
 }
