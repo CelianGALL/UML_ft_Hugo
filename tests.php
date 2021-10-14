@@ -61,20 +61,21 @@ $manager->addIngredientToStock($onion);
 // $manager->removeIngredientFromStock($egg);
 // $manager->removeIngredientFromStock($chorizo);
 
-
 $regina_dough_size = $S_dough;
 $regina = new Recipe("regina", [$regina_dough_size, $tomato], [$ham, $cheese, $mushroom]);
 $napolitaine_dough_size = $M_dough;
 $napolitaine = new Recipe("napolitaine", [$napolitaine_dough_size, $tomato], [$mozzarella, $basilic, $cheese]);
 $raclette_dough_size = $XXL_dough;
 $raclette = new Recipe("raclette", [$raclette_dough_size, $cream], [$potatoe, $cheese, $mushroom, $onion]);
-$raclette->addIngredientToRecipe($ham);
+// $raclette->addIngredientToRecipe($ham);
+// $raclette->removeIngredientFromRecipe($potatoe);
+// $raclette->removeIngredientFromRecipe($basilic);
 
 $manager->addRecipe($regina);
 $manager->addRecipe($napolitaine);
 $manager->addRecipe($raclette);
 
-// $stock = $manager->showRecipe();
+$stock = $manager->showRecipe();
 
 $customer = new Customer("Jean Gilbert");
 $command = new Command($customer);

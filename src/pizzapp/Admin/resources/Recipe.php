@@ -16,9 +16,9 @@ class Recipe
 	public function __construct($name, $base, $ingredients_list)
 	{
 		$this->name = $name;
-		$this->ingredients_list = $ingredients_list;
 		foreach ($ingredients_list as $ingredient) {
 			$this->price += $ingredient->price;
+			$this->ingredients_list[$ingredient->name] = $ingredient;
 		}
 		foreach ($base as $b) {
 			$this->price += $b->price;
@@ -29,7 +29,7 @@ class Recipe
 	public function removeIngredientFromRecipe(Ingredient $ingredient_to_remove)
 	{
 		if (in_array($ingredient_to_remove, $this->ingredients_list)) {
-			unset($this->ingredients_list[$ingredient_to_remove]);
+			unset($this->ingredients_list[$ingredient_to_remove->name]);
 		} else {
 			echo "This ingredient is not in the recipe.";
 		}
@@ -37,6 +37,6 @@ class Recipe
 
 	public function addIngredientToRecipe(Ingredient $ingredient_to_add)
 	{
-		array_push($this->ingredients_list, $ingredient_to_add);
+		$this->ingredients_list[$ingredient_to_add->name] = $ingredient_to_add;
 	}
 }

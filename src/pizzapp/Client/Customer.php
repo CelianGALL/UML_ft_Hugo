@@ -19,6 +19,6 @@ class Customer
 	public function addCommand(Command $command) {
 		$this->commands[$command->command_id] = $command;
 		$bill = $command->getBill();
-		// echo "\nYour command $command->command_id at the price of $bill has been transfered to Mario ! Status : $command->status";
+		echo "\nYour command $command->command_id at the price of $bill has been transfered to Mario ! Status : $command->status";
 	}
 }
