@@ -3,6 +3,7 @@
 namespace pizzapp\Client;
 
 use Exception;
+use pizzapp\Admin\Ingredients;
 
 class Pizza
 {
@@ -24,7 +25,7 @@ class Pizza
 		}
 	}
 
-	public function addIngredient($new_ingredient)
+	public function addIngredient(Ingredients $new_ingredient)
 	{
 		if (is_array($new_ingredient)) {
 			foreach ($new_ingredient as $ingredient) {
