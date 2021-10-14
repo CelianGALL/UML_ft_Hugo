@@ -27,6 +27,19 @@ class Manager
 		$this->recipes[$recipe->name] = $recipe;
 	}
 
+	public function showRecipe()
+	{
+		foreach ($this->recipes as $key => $value) {
+			echo "\nRecipe : $value->name, Price : $value->price €, Ingredients : ";
+			foreach ($value->base as $b) {
+				echo "$b->name / ";
+			}
+			foreach ($value->ingredients_list as $value) {
+				echo "$value->name / ";
+			}
+		}
+	}
+
 	public function showStock()
 	{
 		foreach ($this->global_stock as $ingredient) {
@@ -38,7 +51,15 @@ class Manager
 	{
 		foreach ($this->global_stock as $ingredient) {
 			$ingredient_stock_value = $ingredient->quantity * $ingredient->price;
-			echo "\n $ingredient->name : $ingredient->price €/unit. Stock value : $ingredient_stock_value €.";
+			echo "\n $ingredient->name : $ingredient->price €/unit.";
+		}
+	}
+
+	public function showStockValues()
+	{
+		foreach ($this->global_stock as $ingredient) {
+			$ingredient_stock_value = $ingredient->quantity * $ingredient->price;
+			echo "\n $ingredient->name's stock value : $ingredient_stock_value €.";
 		}
 	}
 
@@ -46,4 +67,5 @@ class Manager
 	{
 		$ingredient->price = $newprice;
 	}
+
 }
