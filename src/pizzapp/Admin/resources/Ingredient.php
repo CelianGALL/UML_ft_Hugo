@@ -4,7 +4,7 @@ namespace pizzapp\Admin\resources;
 
 use Exception;
 
-class Ingredients
+class Ingredient
 {
 
 	public $name;

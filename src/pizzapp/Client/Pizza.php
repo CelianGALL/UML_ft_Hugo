@@ -3,7 +3,8 @@
 namespace pizzapp\Client;
 
 use Exception;
-use pizzapp\Admin\Ingredients;
+use pizzapp\Admin\resources\Ingredient;
+use pizzapp\Admin\resources\Recipe;
 
 class Pizza
 {
@@ -14,7 +15,7 @@ class Pizza
 	public function displayPizza()
 	{
 		if (isset($this->ingredients)) {
-			echo ("List of ingredients : ");
+			echo ("Ingredients : ");
 			var_dump($this->ingredients);
 		}
 		if (isset($this->base)) {
@@ -25,7 +26,7 @@ class Pizza
 		}
 	}
 
-	public function addIngredient(Ingredients $new_ingredient)
+	public function addIngredient(Ingredient $new_ingredient)
 	{
 		if (is_array($new_ingredient)) {
 			foreach ($new_ingredient as $ingredient) {
