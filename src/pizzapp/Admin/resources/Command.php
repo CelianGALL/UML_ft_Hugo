@@ -50,9 +50,4 @@ class Command
 	{
 		return self::$command_list[$id];
 	}
-
-	static public function getCommands()
-	{
-		return self::$command_list;
-	}
 }
