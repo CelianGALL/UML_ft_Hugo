@@ -5,6 +5,7 @@ namespace pizzapp\Admin;
 use Exception;
 use pizzapp\Admin\resources\Ingredient;
 use pizzapp\Admin\resources\Recipe;
+use pizzapp\Admin\resources\Command;
 
 class Manager
 {
@@ -28,17 +29,9 @@ class Manager
 		$this->recipes[$recipe->name] = $recipe;
 	}
 
-	public function showRecipe()
+	public function showRecipes()
 	{
-		foreach ($this->recipes as $key => $value) {
-			echo "\nRecipe : $value->name, Price : $value->price €, Ingredients : ";
-			foreach ($value->base as $b) {
-				echo "$b->name / ";
-			}
-			foreach ($value->ingredients_list as $value) {
-				echo "$value->name / ";
-			}
-		}
+		return Recipe::showRecipes();
 	}
 
 	public function showStock()
@@ -46,6 +39,12 @@ class Manager
 		foreach ($this->global_stock as $ingredient) {
 			echo "\n $ingredient->quantity unit(s) of $ingredient->name left ($ingredient->price €/unit).";
 		}
+	}
+
+	public function showCommands()
+	{
+		// Il faut créer le manager avant la commande, sinon la propriété ne sera pas accessible
+		return Command::$commands_list;
 	}
 
 	public function showPrices()

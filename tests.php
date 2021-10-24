@@ -8,14 +8,14 @@ require_once 'src/utils/ClassLoader.php';
 $loader = new \utils\ClassLoader('src');
 $loader->register();
 
-use pizzapp\Admin\Manager as Manager;
-use pizzapp\Admin\resources\Ingredient as Ingredient;
-use pizzapp\Admin\resources\Recipe as Recipe;
-use pizzapp\Admin\resources\Command as Command;
-use pizzapp\Client\Customer as Customer;
+use pizzapp\Admin\Manager;
+use pizzapp\Admin\resources\Ingredient;
+use pizzapp\Admin\resources\Recipe;
+use pizzapp\Admin\resources\Command;
+use pizzapp\Client\Customer;
+use pizzapp\Client\CustomRecipe;
 
-$manager = new Manager();
-
+// Ingredients
 $S_dough = new Ingredient("small dough", 10, "3.00");
 $M_dough = new Ingredient("medium dough", 10, "4.00");
 $L_dough = new Ingredient("large dough", 10, "6.00");
@@ -34,6 +34,31 @@ $basilic = new Ingredient("basilic", 15, "0.10");
 $potatoe = new Ingredient("potatoe", 20, "0.15");
 $onion = new Ingredient("onion", 5, "0.45");
 
+
+// Recipes
+$regina_dough_size = $S_dough;
+$regina = new Recipe("regina", [$regina_dough_size, $tomato], [$ham, $cheese, $mushroom]);
+$napolitaine_dough_size = $M_dough;
+$napolitaine = new Recipe("napolitaine", [$napolitaine_dough_size, $tomato], [$mozzarella, $basilic, $cheese]);
+$raclette_dough_size = $XXL_dough;
+$raclette = new Recipe("raclette", [$raclette_dough_size, $cream], [$potatoe, $cheese, $mushroom, $onion]);
+// $raclette->addIngredientToRecipe($ham);
+// $raclette->removeIngredientFromRecipe($potatoe);
+// $raclette->removeIngredientFromRecipe($basilic);
+Recipe::showRecipes();
+$selector = readline("\nChose the recipe you want to create your recipe from :\n");
+$custom_recipe = new CustomRecipe($selector);
+$custom_recipe->addIngredientToRecipe($potatoe);
+
+$customer = new Customer("Jean Gilbert");
+$command = new Command($customer);
+$command->addItem($regina);
+// $command->addItem($napolitaine);
+$customer->addCommand($command);
+
+
+// Manager
+$manager = new Manager();
 $manager->addIngredientToStock($S_dough);
 $manager->addIngredientToStock($M_dough);
 $manager->addIngredientToStock($L_dough);
@@ -52,37 +77,17 @@ $manager->addIngredientToStock($basilic);
 $manager->addIngredientToStock($potatoe);
 $manager->addIngredientToStock($onion);
 
-// $stock = $manager->showStock();
-// $stock = $manager->showPrices();
-// $stock = $manager->showStockValues();
-
 // $manager->removeIngredientFromStock($cheese);
 // $manager->removeIngredientFromStock($ham);
 // $manager->removeIngredientFromStock($egg);
 // $manager->removeIngredientFromStock($chorizo);
+// $manager->showStock();
+// $manager->showStockValues();
 
-$regina_dough_size = $S_dough;
-$regina = new Recipe("regina", [$regina_dough_size, $tomato], [$ham, $cheese, $mushroom]);
-$napolitaine_dough_size = $M_dough;
-$napolitaine = new Recipe("napolitaine", [$napolitaine_dough_size, $tomato], [$mozzarella, $basilic, $cheese]);
-$raclette_dough_size = $XXL_dough;
-$raclette = new Recipe("raclette", [$raclette_dough_size, $cream], [$potatoe, $cheese, $mushroom, $onion]);
-// $raclette->addIngredientToRecipe($ham);
-// $raclette->removeIngredientFromRecipe($potatoe);
-// $raclette->removeIngredientFromRecipe($basilic);
+// $manager->showPrices();
+$manager->showCommands();
+// print_r($manager->showCommands());
 
 $manager->addRecipe($regina);
 $manager->addRecipe($napolitaine);
 $manager->addRecipe($raclette);
-
-$stock = $manager->showRecipe();
-
-$customer = new Customer("Jean Gilbert");
-$command = new Command($customer);
-$command->addItem($regina);
-// $command->addItem($napolitaine);
-$customer->addCommand($command);
-
-// echo "\n";
-var_dump(Command::getCommands());
-// var_dump(Command::getCommand($command->id));

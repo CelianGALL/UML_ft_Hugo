@@ -11,20 +11,42 @@ class Recipe
 	public $name;
 	public array $base;
 	public array $ingredients_list;
+	static public array $recipes_list = [];
 	public $price;
 
 	public function __construct($name, $base, $ingredients_list)
 	{
-		$this->name = $name;
-		foreach ($ingredients_list as $ingredient) {
-			$this->price += $ingredient->price;
-			$this->ingredients_list[$ingredient->name] = $ingredient;
-		}
-		foreach ($base as $b) {
-			$this->price += $b->price;
-			$this->base[$b->name] = $b;
+		if (!in_array($name, self::$recipes_list)) {
+			$this->name = $name;
+			foreach ($ingredients_list as $ingredient) {
+				$this->price += $ingredient->price;
+				$this->ingredients_list[$ingredient->name] = $ingredient;
+			}
+			foreach ($base as $b) {
+				$this->price += $b->price;
+				$this->base[$b->name] = $b;
+			}
+			self::$recipes_list[$this->name] = $this;
+		} else {
+			echo "\nA recipe with this name already exists !";
 		}
 	}
+
+	static public function showRecipes() {
+		foreach (self::$recipes_list as $recipe => $value) {
+			echo "\n";
+			echo 'Name : '.$value->name.' / Price : '.$value->price.'€ / Ingredients : ';
+			foreach ($value->base as $b) {
+				echo "$b->name (base), ";
+			}
+			foreach ($value->ingredients_list as $ingredient) {
+				echo "$ingredient->name, ";
+			}
+		}
+	}
+
+	// Ces méthodes ne doivent être accessibles que depuis le manager.
+	// C'est un gestionnaire de recettes, pas un créateur de CustomRecipe.
 
 	public function removeIngredientFromRecipe(Ingredient $ingredient_to_remove)
 	{
