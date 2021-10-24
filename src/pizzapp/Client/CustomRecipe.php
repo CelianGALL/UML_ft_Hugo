@@ -36,7 +36,7 @@ class CustomRecipe
 	{
 		foreach ($this->base_recipe->base as $b) {
 			echo "\n";
-			echo '(base)' . $b->name . ' (' . $b->price . '€)';
+			echo '(base) ' . $b->name . ' (' . $b->price . '€)';
 		}
 		foreach ($this->base_recipe->ingredients_list as $ingredient) {
 			echo "\n";
