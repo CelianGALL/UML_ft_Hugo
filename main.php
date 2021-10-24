@@ -125,7 +125,6 @@ if ($usertype == 1) {
                                 }
                             }
                             if ($remove_or_add_choice == "Remove") {
-                                $custom_recipe = new CustomRecipe($command->items[intval($pizza_number_to_modify) - 1]->name);
                                 $custom_recipe = new CustomRecipe($command->items[(intval($pizza_number_to_modify) - 1)]->name);
                                 // Overwrite Recipe index with CustomRecipe
                                 $command->addItem($custom_recipe, $pizza_number_to_modify);
@@ -167,19 +166,140 @@ if ($usertype == 1) {
             if (Ingredient::$ingredients_list[$ingredient]->type == "base") {
                 $base_list_custom_pizza[$ingredient] = Ingredient::$ingredients_list[$ingredient];
             }
-            if (Ingredient::$ingredients_list[$ingredient]->type == "ingredient")
-            $ingredients_list_custom_pizza[$ingredient] = Ingredient::$ingredients_list[$ingredient];
+            if (Ingredient::$ingredients_list[$ingredient]->type == "ingredient") {
+                $ingredients_list_custom_pizza[$ingredient] = Ingredient::$ingredients_list[$ingredient];
+            }
         }
 
         // Create real Recipe
         $empty_recipe = new Recipe("Custom pizza", $base_list_custom_pizza, $ingredients_list_custom_pizza);
         // to create a CustomRecipe from it
         $custom_recipe = new CustomRecipe("Custom pizza", $base_list_custom_pizza, $ingredients_list_custom_pizza);
-        $command->addItem($custom_recipe, null);
+        $quantite_custom_pizza = readline("How many pizzas like this do you want ? : ");
+        $quantite_custom_pizza = intval($quantite_custom_pizza);
+        if ($quantite_custom_pizza > 0) {
+            for ($i = 0; $i < $quantite_custom_pizza; $i++) {
+                $command->addItem($custom_recipe, null);
+            }
+        }
         // then delete it
         unset(Recipe::$recipes_list[$empty_recipe->name]);
 
-        
+
+        echo "\nYour command : ";
+        $command->getCommand();
+        echo "\n";
+
+        while (true) {
+            $modify_choice = readline("Do you want to modify your command ? [Yes / No] : ");
+            if ($modify_choice == "Yes") {
+                while (true) {
+                    echo "1 : Remove or add a pizza to your command\n";
+                    echo "2 : Remove or add an ingredient to a pizza\n";
+                    echo "3 : Cancel\n";
+                    $modify_choice = readline("Your choice : ");
+                    echo "\n";
+                    if ($modify_choice == "1") {
+                        while (true) {
+                            $remove_or_add_choice = readline("Do you want to remove or add a pizza to your command ? [Add / Remove / Cancel] : ");
+                            if ($remove_or_add_choice == "Add") {
+                                Ingredient::showIngredients();
+                                echo "\n";
+                                $base_list_custom_pizza = [];
+                                $ingredients_list_custom_pizza = [];
+
+                                $ingredients_to_add = readline("Type in ingredient name you want to add to your pizza (separate names with commas), you need at least one dough type ingredient : ");
+                                $ingredients_to_add = str_replace(' ', '', $ingredients_to_add);
+                                $ingredients_to_add_array = explode(',', $ingredients_to_add);
+                                foreach ($ingredients_to_add_array as $ingredient) {
+                                    if (Ingredient::$ingredients_list[$ingredient]->type == "base") {
+                                        $base_list_custom_pizza[$ingredient] = Ingredient::$ingredients_list[$ingredient];
+                                    }
+                                    if (Ingredient::$ingredients_list[$ingredient]->type == "ingredient")
+                                        $ingredients_list_custom_pizza[$ingredient] = Ingredient::$ingredients_list[$ingredient];
+                                }
+
+                                // Create real Recipe
+                                $empty_recipe = new Recipe("Custom pizza", $base_list_custom_pizza, $ingredients_list_custom_pizza);
+                                // to create a CustomRecipe from it
+                                $custom_recipe = new CustomRecipe("Custom pizza", $base_list_custom_pizza, $ingredients_list_custom_pizza);
+                                $quantite_custom_pizza = readline("How many pizzas like this do you want ? : ");
+                                $quantite_custom_pizza = intval($quantite_custom_pizza);
+                                if ($quantite_custom_pizza > 1) {
+                                    for ($i = 0; $i < $quantite_custom_pizza; $i++) {
+                                        $command->addItem($custom_recipe, null);
+                                    }
+                                }
+                                // then delete it
+                                unset(Recipe::$recipes_list[$empty_recipe->name]);
+
+                                echo ("\nYour command after modifications :");
+                                $command->getCommand();
+                                echo "\n";
+                            }
+                            if ($remove_or_add_choice == "Remove") {
+                                $pizza_to_remove = readline("Chose which pizza's number you want to remove (separate numbers with commas) : ");
+                                $pizza_to_remove = str_replace(' ', '', $pizza_to_remove);
+                                $pizza_number_array_to_remove = explode(',', $pizza_to_remove);
+
+                                foreach ($pizza_number_array_to_remove as $pizza_number) {
+                                    $command->removeItem($pizza_number);
+                                }
+                                echo ("\nYour command after modifications :");
+                                $command->getCommand();
+                                echo "\n";
+                            }
+                            if ($remove_or_add_choice == "Cancel") {
+                                break;
+                            }
+                        }
+                    }
+                    if ($modify_choice == "2") {
+                        $pizza_number_to_modify = readline("Chose the pizza number you want to modify : ");
+                        $remove_or_add_choice = readline("Do you want to remove or add an ingredient to your pizza ? [Add / Remove / Cancel] : ");
+                        $pizza_to_modify = $command->items[(intval($pizza_number_to_modify) - 1)];
+                        if ($remove_or_add_choice == "Add") {
+                            Ingredient::showIngredients();
+                            echo "\n";
+                            $ingredients_to_add = readline("Type in ingredient name you want to add to your pizza (separate names with commas) : ");
+                            $ingredients_to_add = str_replace(' ', '', $ingredients_to_add);
+                            $ingredients_to_add_array = explode(',', $ingredients_to_add);
+
+                            foreach ($ingredients_to_add_array as $ingredient) {
+                                $pizza_to_modify->addIngredientToRecipe($ingredient);
+                            }
+                            echo ("\nYour command after modifications :");
+                            $command->getCommand();
+                            echo "\n";
+                        }
+                        if ($remove_or_add_choice == "Remove") {
+                            $pizza_to_modify->showRecipe();
+                            echo "\n";
+                            $ingredients_to_remove = readline("Type in ingredient name you want to remove from your pizza (separate names with commas) : ");
+                            $ingredients_to_remove = str_replace(' ', '', $ingredients_to_remove);
+                            $ingredients_to_remove_array = explode(',', $ingredients_to_remove);
+                            $pizza_to_modify = $command->items[(intval($pizza_number_to_modify) - 1)];
+                            foreach ($ingredients_to_remove_array as $ingredient) {
+                                $pizza_to_modify->removeIngredientFromRecipe($ingredient);
+                            }
+                            echo ("\nYour command after modifications :");
+                            $command->getCommand();
+                            echo "\n";
+                        }
+                        if ($remove_or_add_choice == "Cancel") {
+                            break;
+                        }
+                    }
+                    if ($modify_choice == "3") {
+                        break;
+                    }
+                }
+            } else {
+                echo "\n";
+                echo 'Command sent to Mario ! Bill : ' . $command->getBill();
+                break;
+            }
+        }
     }
 }
 

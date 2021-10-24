@@ -44,7 +44,13 @@ class Command
 	{
 		if (isset($index)) {
 			$index = intval($index);
-			echo 'Pizza #' . $index . ' removed (' . $this->items[$index - 1]->name . ')';
+			if ($this->items[$index - 1] instanceof Recipe) {
+				echo 'Pizza #' . $index . ' removed (' . $this->items[$index - 1]->name . ')';
+			}
+			if ($this->items[$index - 1] instanceof CustomRecipe) {
+				echo 'Pizza #' . $index . ' removed (' . $this->items[$index - 1]->base_recipe->name . ')';
+			}
+
 			echo "\n";
 			unset($this->items[$index - 1]);
 			// Reindex array after unset (index are still here but empty)
@@ -59,8 +65,8 @@ class Command
 		foreach ($this->items as $item) {
 			$this->bill += $item->price;
 		}
-		$this->bill = $this->bill * Manager::getMargin();
-		return $this->bill . '€';
+		$bill_with_taxes = $this->bill * Manager::getMargin();
+		return $bill_with_taxes . ' ( ' . $this->bill . '€ excluding taxes)';
 	}
 
 	public function getCommand()
