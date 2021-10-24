@@ -44,7 +44,7 @@ class Manager
 	public function showCommands()
 	{
 		// Il faut créer le manager avant la commande, sinon la propriété ne sera pas accessible
-		return Command::$command_list;
+		return Command::$commands_list;
 	}
 
 	public function showPrices()

@@ -37,7 +37,7 @@ class Recipe
 			echo "\n";
 			echo 'Name : '.$value->name.' / Price : '.$value->price.'€ / Ingredients : ';
 			foreach ($value->base as $b) {
-				echo "$b->name, ";
+				echo "$b->name (base), ";
 			}
 			foreach ($value->ingredients_list as $ingredient) {
 				echo "$ingredient->name, ";

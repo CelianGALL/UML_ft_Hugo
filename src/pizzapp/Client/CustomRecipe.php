@@ -34,11 +34,9 @@ class CustomRecipe
 
 	public function showRecipe()
 	{
-
-		echo "\nCurrent ingredients of your pizza : ";
 		foreach ($this->base_recipe->base as $b) {
 			echo "\n";
-			echo $b->name . ' (' . $b->price . '€)';
+			echo '(base)' . $b->name . ' (' . $b->price . '€)';
 		}
 		foreach ($this->base_recipe->ingredients_list as $ingredient) {
 			echo "\n";
@@ -76,8 +74,3 @@ class CustomRecipe
 		}
 	}
 }
-
-// Le problème : je n'ai que des noms à associer aux recettes,
-// ce qui fait qu'au moment d'afficher les ingrédients,
-// cela affiche les ingrédients de la recette non custom.
-// Il faut réussir à les différencier au moment de lister

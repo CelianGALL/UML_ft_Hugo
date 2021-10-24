@@ -10,14 +10,16 @@ class Ingredient
 	public $name;
 	public $quantity;
 	public $price;
+	public $type;
 	static public array $ingredients_list = [];
 
-	public function __construct($name, $quantity, $price)
+	public function __construct($name, $quantity, $price, $type)
 	{
 		if (!in_array($name, self::$ingredients_list)) {
 			$this->name = $name;
 			$this->quantity = $quantity;
 			$this->price = $price;
+			$this->type = $type;
 			self::$ingredients_list[$this->name] = $this;
 		} else {
 			echo "\nAn ingredient with this name already exists";
@@ -26,7 +28,7 @@ class Ingredient
 
 	static public function showIngredients() {
 		foreach (self::$ingredients_list as $ingredient) {
-			echo "\n$ingredient->name ($ingredient->price €)";
+			echo "\n$ingredient->type : $ingredient->name ($ingredient->price €)";
 		}
 	}
 }
