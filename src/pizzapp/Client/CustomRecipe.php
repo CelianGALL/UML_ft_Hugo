@@ -13,8 +13,8 @@ class CustomRecipe
 {
 
 	public $base_recipe;
-	public array $base;
-	public array $ingredients_list;
+	public array $base = [];
+	public array $ingredients_list = [];
 	public $price;
 
 	public function __construct($selector)

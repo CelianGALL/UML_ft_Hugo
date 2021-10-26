@@ -34,13 +34,6 @@ class Manager
 		return Recipe::showRecipes();
 	}
 
-	public function showStock()
-	{
-		foreach ($this->global_stock as $ingredient) {
-			echo "\n $ingredient->quantity unit(s) of $ingredient->name left ($ingredient->price €/unit).";
-		}
-	}
-
 	public function showCommands()
 	{
 		// Il faut créer le manager avant la commande, sinon la propriété ne sera pas accessible
@@ -68,12 +61,7 @@ class Manager
 		$ingredient->price = $newprice;
 	}
 
-	static public function getMargin()
-	{
-		return self::$margin;
-	}
-
-	static public function changeMargin($new_margin)
+	public function changeMargin($new_margin)
 	{
 		if ($new_margin >= 1) {
 			self::$margin = $new_margin;
@@ -82,4 +70,11 @@ class Manager
 		}
 	}
 
+	// Admin side to see stock of ingredients
+	public function showIngredients()
+	{
+		foreach (Ingredient::$ingredients_list as $ingredient) {
+			echo "\n$ingredient->type : $ingredient->name ($ingredient->price €, Qty : $ingredient->quantity)";
+		}
+	}
 }
