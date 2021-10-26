@@ -9,8 +9,8 @@ class Recipe
 {
 
 	public $name;
-	public array $base;
-	public array $ingredients_list;
+	public array $base = [];
+	public array $ingredients_list = [];
 	static public array $recipes_list = [];
 	public $price;
 
@@ -43,6 +43,11 @@ class Recipe
 				echo "$ingredient->name, ";
 			}
 		}
+	}
+
+	static public function removeRecipe($name) {
+		unset(self::$recipes_list[$name]);
+		self::$recipes_list = array_values(self::$recipes_list);
 	}
 
 	// Ces méthodes ne doivent être accessibles que depuis le manager.

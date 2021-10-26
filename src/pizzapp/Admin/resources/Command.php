@@ -14,7 +14,7 @@ class Command
 	public $customer;
 	public $status; 				// initialized, preparing, baking, finished
 	public $id;
-	static public array $commands_list;
+	static public array $commands_list = [];
 	public array $items = [];
 	public $bill = 0;
 
@@ -65,7 +65,7 @@ class Command
 		foreach ($this->items as $item) {
 			$this->bill += $item->price;
 		}
-		$bill_with_taxes = $this->bill * Manager::getMargin();
+		$bill_with_taxes = $this->bill * Manager::$margin;
 		return $bill_with_taxes . ' ( ' . $this->bill . '€ excluding taxes)';
 	}
 
