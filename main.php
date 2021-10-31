@@ -17,9 +17,6 @@ use pizzapp\Admin\Manager;
 use pizzapp\Client\Customer;
 use pizzapp\Client\CustomRecipe;
 
-//Config Admin
-$pseudo = "mario";
-$password = "1234";
 // Gérer qu'une pizza commandée fait retirer 1 unité d'ingrédient au stock
 echo "Welcome to MarioPizza's App !\n";
 
@@ -318,15 +315,16 @@ while (true) {
         $testpseudo = "";
         $testpassword = "";
     
+        $config = parse_ini_file("src/pizzapp/Aùdmin/config.ini");
     
         $testpseudo = readline("User : ");
-        while ($testpseudo != $pseudo) {
+        while ($testpseudo != $config["pseudo"]) {
             echo ("Wrong pseudo\n\n");
             $testpseudo = readline("User : ");
         }
     
         $testpassword = readline("Password : ");
-        while ($testpassword != $password) {
+        while ($testpassword != $config["password"]) {
             echo ("Wrong password\n\n");
             $testpassword = readline("Password : ");
         }
