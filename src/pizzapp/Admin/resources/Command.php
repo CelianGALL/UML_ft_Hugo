@@ -18,6 +18,10 @@ class Command
 	public array $items = [];
 	public $bill = 0;
 
+	/**
+	 * Constructor
+	 * @param Customer $customer
+	 */
 	public function __construct(Customer $customer)
 	{
 		$this->customer = $customer;
@@ -27,6 +31,11 @@ class Command
 		// echo "\nYour command id : $this->id";
 	}
 
+	/**
+	 * Add an element to the command, if index is null then it simply array_push the $item
+	 * @param $item
+	 * @param $index
+	 */
 	public function addItem($item, $index)
 	{
 		if (isset($item)) {
@@ -39,7 +48,11 @@ class Command
 			echo 'Please, add valid item to your command.';
 		}
 	}
-
+	
+	/**
+	 * Remove an element from the command, error if index is null
+	 * @param $item
+	 */
 	public function removeItem($index)
 	{
 		if (isset($index)) {
@@ -60,6 +73,9 @@ class Command
 		}
 	}
 
+	/**
+	 * Sum up all ingredients price times Mario's margin
+	 */
 	public function getBill()
 	{
 		foreach ($this->items as $item) {
@@ -69,6 +85,9 @@ class Command
 		return $bill_with_taxes . ' ( ' . $this->bill . '€ excluding taxes)';
 	}
 
+	/**
+	 * Show current command
+	 */
 	public function getCommand()
 	{
 		foreach ($this->items as $index => $item) {

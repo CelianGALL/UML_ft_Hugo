@@ -13,6 +13,13 @@ class Ingredient
 	public $type;
 	static public array $ingredients_list = [];
 
+	/**
+	 * Constructor
+	 * @param  string $name
+	 * @param $quantity
+	 * @param $price
+	 * @param $type
+	 */
 	public function __construct($name, $quantity, $price, $type)
 	{
 		if (!in_array($name, self::$ingredients_list)) {
@@ -26,6 +33,9 @@ class Ingredient
 		}
 	}
 
+	/**
+	 * show all informations about the ingredient
+	 */
 	static public function showIngredients() {
 		foreach (self::$ingredients_list as $ingredient) {
 			echo "\n$ingredient->type : $ingredient->name ($ingredient->price €)";

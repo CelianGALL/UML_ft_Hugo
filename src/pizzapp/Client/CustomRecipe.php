@@ -17,6 +17,10 @@ class CustomRecipe
 	public array $ingredients_list = [];
 	public $price;
 
+	/**
+	 * Constructor
+	 * @param $selector
+	 */
 	public function __construct($selector)
 	{
 		$recipes = Recipe::$recipes_list;
@@ -32,6 +36,9 @@ class CustomRecipe
 		}
 	}
 
+	/**
+	 * Show the current custom recipe
+	 */
 	public function showRecipe()
 	{
 		foreach ($this->base_recipe->base as $b) {
@@ -48,6 +55,10 @@ class CustomRecipe
 	// Ces méthodes ne doivent être accessibles que depuis le manager.
 	// C'est un gestionnaire de recettes, pas un créateur de CustomRecipe.
 
+	/**
+	 * This method allows the customer to remove an ingredient without changing the base recipe for all users
+	 * @param $ingredient_to_remove
+	 */
 	public function removeIngredientFromRecipe($ingredient_to_remove)
 	{
 		if (array_key_exists($ingredient_to_remove, $this->ingredients_list)) {
@@ -56,19 +67,25 @@ class CustomRecipe
 			$this->ingredients_list = array_values($this->ingredients_list);
 			$this->price = $this->price - Ingredient::$ingredients_list[$ingredient_to_remove]->price;
 
-			echo "$ingredient_to_remove removed. This pizza now costs $this->price €\n";
+			echo '- '.$ingredient_to_remove.' removed from '.$this->base_recipe->name.'. This pizza now costs '.$this->price.'€';
+			echo "\n";
 		} else {
 			echo "Please, enter an ingredient that's in the pizza.\n";
 		}
 	}
 
+	/**
+	 * This method allows the customer to add an ingredient without changing the base recipe for all users
+	 * @param $ingredient_to_add
+	 */
 	public function addIngredientToRecipe($ingredient_to_add)
 	{
 		if (array_key_exists($ingredient_to_add, Ingredient::$ingredients_list)) {
 			$this->ingredients_list[$ingredient_to_add] = Ingredient::$ingredients_list[$ingredient_to_add];
 			$this->price = $this->price + Ingredient::$ingredients_list[$ingredient_to_add]->price;
 
-			echo "$ingredient_to_add added. This pizza now costs $this->price €\n";
+			echo '+ '.$ingredient_to_add.' added to '.$this->base_recipe->name.'. This pizza now costs '.$this->price.'€';
+			echo "\n";
 		} else {
 			echo "Please, enter an existing ingredient name.\n";
 		}

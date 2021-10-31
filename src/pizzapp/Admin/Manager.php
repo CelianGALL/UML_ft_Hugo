@@ -14,32 +14,53 @@ class Manager
 	public $recipes = [];
 	static public $margin = 1.2;
 
+	/**
+	 * Add an ingredient to the stock to make it available for customers
+	 * @param Ingredient $ingredient
+	 */
+
 	public function addIngredientToStock(Ingredient $ingredient)
 	{
 		$this->global_stock[$ingredient->name] = $ingredient;
 	}
 
+	/**
+	 * Remove an ingredient from the stock
+	 * @param Ingredient $ingredient
+	 */
 	public function removeIngredientFromStock(Ingredient $ingredient)
 	{
 		unset($this->global_stock[$ingredient->name]);
 	}
 
+	/**
+	 * Add a recipe to the recipes list
+	 * @param Recipe $recipe
+	 */
 	public function addRecipe(Recipe $recipe)
 	{
 		$this->recipes[$recipe->name] = $recipe;
 	}
 
+	/**
+	 * Display the recipes
+	 */
 	public function showRecipes()
 	{
 		return Recipe::showRecipes();
 	}
 
+	/**
+	 * Display all the commands made
+	 */
 	public function showCommands()
 	{
-		// Il faut créer le manager avant la commande, sinon la propriété ne sera pas accessible
 		return Command::$commands_list;
 	}
 
+	/**
+	 * Display all the prices of all ingredients
+	 */
 	public function showPrices()
 	{
 		foreach ($this->global_stock as $ingredient) {
@@ -48,6 +69,9 @@ class Manager
 		}
 	}
 
+	/**
+	 * Show ingredients quantity in stock
+	 */
 	public function showStockValues()
 	{
 		foreach ($this->global_stock as $ingredient) {
@@ -56,11 +80,20 @@ class Manager
 		}
 	}
 
+	/**
+	 * Change the price of an ingredient
+	 * @param Ingredient $ingredient
+	 * @param $newprice
+	 */
 	public function changePrice(Ingredient $ingredient, $newprice)
 	{
 		$ingredient->price = $newprice;
 	}
 
+	/**
+	 * Change Mario's margin
+	 * @param $new_margin
+	 */
 	public function changeMargin($new_margin)
 	{
 		if ($new_margin >= 1) {
@@ -70,7 +103,9 @@ class Manager
 		}
 	}
 
-	// Admin side to see stock of ingredients
+	/**
+	* Allows admin to see all ingredients + its quantity
+	*/
 	public function showIngredients()
 	{
 		foreach (Ingredient::$ingredients_list as $ingredient) {
